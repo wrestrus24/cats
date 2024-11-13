@@ -3,8 +3,6 @@ from PIL import Image, ImageTk
 import requests
 from io import BytesIO
 
-from Scripts.блокнот import file_menu
-
 
 def load_image(url):
     try:
@@ -18,10 +16,14 @@ def load_image(url):
         print(f"ERROR: {e}")
         return None
 
-def set_image():
+def open_new_window():
     img= load_image(url)
     if img:
-        label.config(image=img)
+        new_window=TopLevel()
+        new_window.title("Picture CAT")
+        new_window.geometry("600x480")
+        label = Label(new_window, image=img)
+        label.pack()
         label.image = img
 
 def exit():
@@ -31,8 +33,7 @@ window=Tk()
 window.title("Cats!")
 window.geometry("600x600")
 
-label=Label()
-label.pack()
+
 
 url= "https://cataas.com/cat"
 img= load_image(url)
@@ -47,7 +48,7 @@ window.config(menu=menu_bar)
 
 file_menu= Menu(menu_bar, tearoff=0)
 menu_bar.add_cascade(label="File", menu=file_menu)
-file_menu.add_command(label="Load Photo", command=set_image)
+file_menu.add_command(label="Load Photo", command=open_new_window)
 file_menu.add_command(label="Exit", command=exit)
 
 set_image()
